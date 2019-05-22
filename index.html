@@ -15,8 +15,7 @@ var st = {
   t: "",
 };
 function handleOrientation(event) {
-  console.log(event)
-  let now = Date.now();
+  let now = new Date();
   st = {
     l: event.absolute,
     a: event.alpha,
@@ -57,8 +56,6 @@ function init(event) {
   animate()
 }
 document.addEventListener("DOMContentLoaded", init)
-
-console.log(window.DeviceOrientationEvent)
 window.addEventListener("deviceorientation", handleOrientation, false)
 
 </script>
