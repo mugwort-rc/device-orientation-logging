@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#log {
+  height: 512px;
+}
+</style>
+<script>
+var st = {
+  l: false,
+  a: 0,
+  b: 0,
+  g: 0,
+  t: "",
+};
+function handleOrientation(event) {
+  console.log(event)
+  let now = Date.now();
+  st = {
+    l: event.absolute,
+    a: event.alpha,
+    b: event.beta,
+    g: event.gamma,
+    t: now.toISOString(),
+  };
+}
+
+var logging = false;
+
+function animate() {
+  if ( logging ) {
+    document.getElementById("log").value += JSON.stringify(st) + "\n";
+  }
+  requestAnimationFrame(animate)
+}
+
+function toggleLogging() {
+  if ( logging ) {
+    document.getElementById("button").innerText = "Start";
+    logging = false;
+  } else {
+    document.getElementById("button").innerText = "Stop";
+    logging = true;
+  }
+}
+
+function send() {
+  xhr = new XMLHttpRequest();
+  xhr.open("POST", document.getElementById("send2").value)
+  xhr.send(document.getElementById("log").value)
+  document.getElementById("log").value = "";
+}
+
+function init(event) {
+  console.log("ready")
+  animate()
+}
+document.addEventListener("DOMContentLoaded", init)
+
+console.log(window.DeviceOrientationEvent)
+window.addEventListener("deviceorientation", handleOrientation, false)
+
+</script>
+</head>
+<body>
+<textarea id="log"></textarea>
+<button onclick="javascript:toggleLogging()" id="button">Start</button>
+
+<input id="send2" type="text" value="http://localhost:5000/save"/>
+<button onclick="javascript:send()">Send</button>
+</body>
+
+</html>
