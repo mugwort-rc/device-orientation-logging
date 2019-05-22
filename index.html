@@ -44,10 +44,8 @@ function toggleLogging() {
   }
 }
 
-function send() {
-  xhr = new XMLHttpRequest();
-  xhr.open("POST", document.getElementById("send2").value)
-  xhr.send(document.getElementById("log").value)
+function flush() {
+  console.log(document.getElementById("log").value)
   document.getElementById("log").value = "";
 }
 
@@ -64,8 +62,7 @@ window.addEventListener("deviceorientation", handleOrientation, false)
 <textarea id="log"></textarea>
 <button onclick="javascript:toggleLogging()" id="button">Start</button>
 
-<input id="send2" type="text" value="http://localhost:5000/save"/>
-<button onclick="javascript:send()">Send</button>
+<button onclick="javascript:flush()">Flush</button>
 </body>
 
 </html>
